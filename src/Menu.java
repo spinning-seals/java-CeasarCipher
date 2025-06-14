@@ -19,7 +19,6 @@ public class Menu extends Main {
             System.out.println("2: Decrypt console input");
             System.out.println("3: Encrypt file");
             System.out.println("4: Decrypt file");
-            System.out.println("5: Change cipher key");
             System.out.println("0: Exit");
 
             try {
@@ -33,7 +32,7 @@ public class Menu extends Main {
                     case 1: {
                         checkSubMenuInput = true;
                         while (checkSubMenuInput) {
-                            System.out.println("PLEASE ENTER YOUR INPUT (LETTERS AND SPACES ONLY):");
+                            System.out.println("PLEASE ENTER YOUR INPUT (LETTERS AND SPACES ONLY), THAT WILL BE ENCRYPTED:");
                             scannedInput = scanInput.nextLine();
 
                             if (scannedInput.isEmpty()) {
@@ -45,7 +44,23 @@ public class Menu extends Main {
                             }
                         }
                         System.out.println("YOUR INPUT IS: " + scannedInput);
-                        encryptedInput = encrypt(scannedInput.toUpperCase());
+                        checkSubMenuInput = true;
+
+                        while (checkSubMenuInput) {
+                            System.out.println("ENTER CIPHER KEY (WHOLE NUMBERS ONLY)");
+                            if (!scanInput.hasNextInt()) {
+                                System.out.println("INVALID INPUT! ONLY WHOLE NUMBERS ALLOWED.");
+                                scanInput.nextLine();
+                            } else {
+                                int scannedInt = scanInput.nextInt();
+                                scanInput.nextLine();
+                                setCipherKey(scannedInt);
+                                System.out.println("CIPHER KEY: "+getCipherKey());
+                                checkSubMenuInput = false;
+                            }
+                        }
+
+                        encryptedInput = encrypt(scannedInput.toUpperCase(), getCipherKey());
                         System.out.println("IT'S ENCRYPTIN' TIME: " + encryptedInput);
                         break;
                     }
@@ -62,35 +77,32 @@ public class Menu extends Main {
                             }
                         }
                         System.out.println("YOUR ENCRYPTED INPUT IS: " + encryptedInput);
-                        decryptedInput = decrypt(encryptedInput.toUpperCase());
+                        decryptedInput = decrypt(encryptedInput.toUpperCase(),getCipherKey());
                         System.out.println("IT'S DECRYPTIN' TIME: " + decryptedInput);
                         break;
                     }
                     case 3: {
+                        while (checkSubMenuInput) {
+                            System.out.println("ENTER CIPHER KEY (WHOLE NUMBERS ONLY)");
+                            if (!scanInput.hasNextInt()) {
+                                System.out.println("INVALID INPUT! ONLY WHOLE NUMBERS ALLOWED.");
+                                scanInput.nextLine();
+                            } else {
+                                int scannedInt = scanInput.nextInt();
+                                scanInput.nextLine();
+                                setCipherKey(scannedInt);
+                                System.out.println("CIPHER KEY: "+getCipherKey());
+                                checkSubMenuInput = false;
+                            }
+                        }
                         encryptFile();
                         System.out.println("FIND THE ENCRYPTED OUTPUT IN encrypted.txt");
                         break;
                     }
                     case 4: {
+                        System.out.println("CIPHER KEY: "+getCipherKey());
                         decryptFile();
                         System.out.println("FIND THE DECRYPTED OUTPUT IN decrypted.txt");
-                        break;
-                    }
-                    case 5:
-                    {
-                        checkSubMenuInput = true;
-                        while (checkSubMenuInput) {
-                            System.out.println("ENTER NEW CIPHER KEY (WHOLE NUMBERS ONLY)");
-                            if (!scanInput.hasNextInt()) {
-                                System.out.println("INVALID INPUT! ONLY WHOLE NUMBERS ALLOWED.");
-                                scanInput.nextLine(); // consume the bad input
-                            } else {
-                                int scannedInt = scanInput.nextInt();
-                                scanInput.nextLine(); // consume leftover newline
-                                setCipherKey(scannedInt);
-                                checkSubMenuInput = false;
-                            }
-                        }
                         break;
                     }
                     case 0: {

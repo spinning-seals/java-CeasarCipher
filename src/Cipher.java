@@ -14,17 +14,13 @@ public class Cipher
         Cipher.cipherKey = cipherKey;
     }
 
-
-
     static char[] alphabetCharArray = {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
             'U', 'V', 'W', 'X', 'Y', 'Z'
     };
 
-
-
-    public static String encrypt(String myInput)
+    public static String encrypt(String myInput, int cipherKey)
     {
         char[] encryptedCharArray = myInput.toCharArray();
         for (int i = 0; i < encryptedCharArray.length; i++)
@@ -51,7 +47,7 @@ public class Cipher
         String line;
         while ((line = reader.readLine()) != null)
         {
-            String encryptedLine = encrypt(line.toUpperCase());
+            String encryptedLine = encrypt(line.toUpperCase(), getCipherKey());
             writer.write(encryptedLine);
             writer.newLine();
         }
@@ -59,7 +55,7 @@ public class Cipher
         writer.close();
     }
 
-    public static String decrypt(String encryptedInput)
+    public static String decrypt(String encryptedInput, int cipherKey)
     {
         char[] toBeDecryptedCharArray = encryptedInput.toCharArray();
 
@@ -88,7 +84,7 @@ public class Cipher
         String line;
         while ((line = reader.readLine()) != null)
         {
-            String decryptedLine = decrypt(line.toUpperCase());
+            String decryptedLine = decrypt(line.toUpperCase(), getCipherKey());
             writer.write(decryptedLine);
             writer.newLine();
         }
