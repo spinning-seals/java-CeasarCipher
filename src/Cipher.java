@@ -1,5 +1,3 @@
-import java.io.*;
-
 public class Cipher
 {
     private static int cipherKey = 3;
@@ -17,8 +15,10 @@ public class Cipher
     static char[] alphabetCharArray = {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-            'U', 'V', 'W', 'X', 'Y', 'Z'
+            'U', 'V', 'W', 'X', 'Y', 'Z',
+            '.', ',', '!', '?', '-', ':', '\'', '\"', ' '
     };
+
 
     public static String encrypt(String myInput, int cipherKey)
     {
@@ -27,32 +27,22 @@ public class Cipher
         {
 
             char currentChar = encryptedCharArray[i];
+            boolean found = false;
             for(int j = 0; j < alphabetCharArray.length; j++) {
                 if (currentChar == alphabetCharArray[j]) {
                     int shiftedIndex = (j + cipherKey) % alphabetCharArray.length;
                     currentChar = alphabetCharArray[shiftedIndex];
                     encryptedCharArray[i]= currentChar;
+                    found = true;
                     break;
                 }
             }
+            if (!found)
+            {
+                encryptedCharArray[i] = currentChar;
+            }
         }
         return new String(encryptedCharArray);
-    }
-
-    public static void encryptFile() throws IOException
-    {
-        BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
-        BufferedWriter writer = new BufferedWriter(new FileWriter("encrypted.txt"));
-
-        String line;
-        while ((line = reader.readLine()) != null)
-        {
-            String encryptedLine = encrypt(line.toUpperCase(), getCipherKey());
-            writer.write(encryptedLine);
-            writer.newLine();
-        }
-        reader.close();
-        writer.close();
     }
 
     public static String decrypt(String encryptedInput, int cipherKey)
@@ -63,32 +53,22 @@ public class Cipher
         {
 
             char currentChar = toBeDecryptedCharArray[i];
+            boolean found = false;
             for(int j = 0; j < alphabetCharArray.length; j++) {
                 if (currentChar == alphabetCharArray[j]) {
                     int shiftedIndexCalculation = (j - cipherKey + alphabetCharArray.length);
                     int shiftedIndex = shiftedIndexCalculation % alphabetCharArray.length;
                     currentChar = alphabetCharArray[shiftedIndex];
                     toBeDecryptedCharArray[i]= currentChar;
+                    found = true;
                     break;
                 }
             }
+            if (!found)
+            {
+                toBeDecryptedCharArray[i] = currentChar;
+            }
         }
         return new String(toBeDecryptedCharArray);
-    }
-
-    public static void decryptFile() throws IOException
-    {
-        BufferedReader reader = new BufferedReader(new FileReader("encrypted.txt"));
-        BufferedWriter writer = new BufferedWriter(new FileWriter("decrypted.txt"));
-
-        String line;
-        while ((line = reader.readLine()) != null)
-        {
-            String decryptedLine = decrypt(line.toUpperCase(), getCipherKey());
-            writer.write(decryptedLine);
-            writer.newLine();
-        }
-        reader.close();
-        writer.close();
     }
 }
