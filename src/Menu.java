@@ -1,6 +1,4 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Menu extends Cipher {
@@ -23,20 +21,21 @@ public class Menu extends Cipher {
             System.out.println("3: Encrypt input file");
             System.out.println("4: Decrypt encrypted file");
             System.out.println("5. Brute force: Decrypt encrypted file");
+            System.out.println("6: Statistical analysis: Decrypt encrypted file");
             System.out.println("0: Exit");
 
             System.out.print("YOUR CHOICE: ");
             String menuInput = scanInput.nextLine();
 
             if (!menuInput.matches("\\d")) {
-                System.out.println("INVALID INPUT! PLEASE ENTER A NUMBER BETWEEN 0 AND 5.");
+                System.out.println("INVALID INPUT! PLEASE ENTER A NUMBER BETWEEN 0 AND 6.");
                 continue;
             }
 
             int menuChoice = Integer.parseInt(menuInput);
 
-            if (menuChoice < 0 || menuChoice > 5) {
-                System.out.println("PLEASE CHOOSE A NUMBER BETWEEN 0 AND 5.");
+            if (menuChoice < 0 || menuChoice > 6) {
+                System.out.println("PLEASE CHOOSE A NUMBER BETWEEN 0 AND 6.");
                 continue;
             }
 
@@ -116,6 +115,13 @@ public class Menu extends Cipher {
                     BruteForce.decryptBruteForce();
                     break;
                 }
+                case 6:
+                    try {
+                        StatAnalysis.decryptWithStatAnalysis();
+                    } catch (IOException e) {
+                        System.out.println("ERROR DURING STAT ANALYSIS: " + e.getMessage());
+                    }
+                    break;
                 case 0: {
                     System.out.println("GOODBYE!");
                     System.exit(0);
